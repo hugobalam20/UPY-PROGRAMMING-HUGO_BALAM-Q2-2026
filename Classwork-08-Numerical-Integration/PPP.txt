@@ -1,0 +1,62 @@
+START
+    # INPUT
+    PRINT "Write the left endpoint of the interval: "
+    READ a_input
+    PRINT "Write the right endpoint of the interval: "
+    READ b_input
+    PRINT "Write the function to integrate: "
+    READ f_x
+    PRINT "Write the integration method (LRM/RRM/MRM/TRAP): "
+    READ method
+
+    # PROCESS
+    a ← EVALUATE a_input AS FLOAT
+    b ← EVALUATE b_input AS FLOAT
+
+    n ← 1000
+    h ← (b - a) / n
+    area ← 0.0
+    shift ← 0
+    constant ← 0
+    variable ← 0
+
+    # METHODS
+    IF method EQUALS "TRAP" THEN
+        variable ← 1
+        
+        f_0 ← REPLACE "x" WITH a IN f_x
+        area ← area + (h / 2) * EVALUATE f_0
+        
+        FOR i FROM variable TO n - 1 DO
+            xi ← a + (i * h)
+            f_xi ← REPLACE "x" WITH xi IN f_x
+            area ← area + (h / 2) * 2 * EVALUATE f_xi
+        END FOR
+        
+        f_xn ← REPLACE "x" WITH b IN f_x
+        area ← area + (h / 2) * EVALUATE f_xn
+
+    ELSE
+        IF method EQUALS "RRM" THEN
+            shift ← 1
+        END IF
+        
+        IF method EQUALS "MRM" THEN
+            constant ← h / 2
+        END IF
+
+        FOR i FROM shift TO (n + shift - 1) DO
+            IF method EQUALS "MRM" THEN
+                xi ← a + (i * h) + constant
+            ELSE
+                xi ← a + (i * h)
+            END IF
+            
+            height ← REPLACE "x" WITH xi IN f_x
+            area ← area + h * EVALUATE height
+        END FOR
+    END IF
+
+    # OUTPUT
+    PRINT "The integration of ", f_x, " is ", area
+END
