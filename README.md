@@ -16,6 +16,10 @@ The program features dynamic runtime evaluation through input parsing, allowing 
 * **TRAP:** Approximates the definite integral using the Trapezoidal Rule by summing boundary and weighted intermediate values.
 * **LRM / RRM / MRM:** Implements Riemann Sums utilizing Left, Right, or Midpoint rectangular evaluations by dynamically shifting the iteration bounds and calculating subinterval heights.
 
+### 3. Classwork 09 - Spanish Verb Conjugator (CW09)
+The included Python script (`spanish_verb_conjugator.py`) is a linguistic automation tool designed to conjugate any regular Spanish verb ending in *-ar*, *-er*, or *-ir* in the present tense[cite: 10, 74].Built strictly utilizing Python built-in features, lists, and dictionaries without external libraries.
+The program isolates the verb's core lexical components (`stem` and `ending`) via advanced string slicing.It then dynamically pairs the root with its corresponding grammatical suffix by synchronizing parallel collection indices within an optimized iterative loop
+
 ---
 
 ## Environment & Tools
@@ -48,6 +52,12 @@ For Classwork 08:
 cd Classwork-08-Numerical-Integration
 python numerical_integration.py
 ```
+For Classwork 09:
+```
+cd CW09
+python spanish_verb_conjugator.py
+```
+
 ---
 
 ## AI Use Declaration - Classwork 07
@@ -59,5 +69,11 @@ AI tools were partially utilized as an auxiliary assistant for generating the st
 ## AI Use Declaration - Classwork 08
 
 AI tools were partially utilized as an auxiliary assistant for debugging, optimizing the string substitution workflow in the numerical integration loops, and formatting documentation layout. The mathematical integration logic, variable structures, and boundary constraints were fully designed and implemented by the author.
+
+---
+
+## AI Use Declaration - Classwork 09
+
+AI tools were partially utilized as an auxiliary assistant for optimizing documentation syntax, formatting pseudocode structure, and verifying standard markdown layout. The implementation of structural arrays, dictionary mapping configurations, and sequential loop logic were entirely designed and coded by the author.
 
 

@@ -1,0 +1,28 @@
+INICIO
+
+    pronombres <- ['yo', 'tu', 'el', 'nosotros', 'vosotros', 'ellos']
+    
+    terminaciones <- {
+        'ar': ['o', 'as', 'a', 'amos', 'ais', 'an'],
+        'er': ['o', 'es', 'e', 'emos', 'eis', 'en'],
+        'ir': ['o', 'es', 'e', 'imos', 'is', 'en']
+    }
+
+    LEER verbo
+    
+    stem <- verbo (desde el inicio hasta la penúltima letra)
+    ending <- verbo (las últimas dos letras)
+    
+    lista_sufijos <- terminaciones[ending]
+    
+    PARA i DESDE 0 HASTA (Longitud de pronombres - 1) CON PASO 1 HACER
+        pronoun <- pronombres[i]
+        sufijo <- lista_sufijos[i]
+        
+        IMPRIMIR pronoun + " " + stem + sufijo
+    FIN PARA
+
+FIN
+
+
+
