@@ -169,3 +169,4 @@ while programa_activo:
     else:
         print("[X] Rol no reconocido en el sistema.")
         
+        
