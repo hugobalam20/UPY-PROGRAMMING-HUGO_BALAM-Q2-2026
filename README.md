@@ -20,6 +20,9 @@ The program features dynamic runtime evaluation through input parsing, allowing 
 The included Python script (`spanish_verb_conjugator.py`) is a linguistic automation tool designed to conjugate any regular Spanish verb ending in *-ar*, *-er*, or *-ir* in the present tense[cite: 10, 74].Built strictly utilizing Python built-in features, lists, and dictionaries without external libraries.
 The program isolates the verb's core lexical components (`stem` and `ending`) via advanced string slicing.It then dynamically pairs the root with its corresponding grammatical suffix by synchronizing parallel collection indices within an optimized iterative loop
 
+### 4. Classwork 10 - School Management System (CW10)
+The included Python script (school_management_system.py) is an administrative simulation tool designed to replicate an academic records platform handling multi-role access controls (Student, Teacher, and Coordinator) within a single, continuous runtime loop. Developed under strict operational constraints without user-defined functions, the program manages global data persistence using multidimensional dictionaries and immutable tuples. It features infinite login verification, interactive data updates with nested correction loops for real-time grade modification, and boolean state controls to safely manage cross-role transitions and full system shutdowns.
+
 ---
 
 ## Environment & Tools
@@ -57,6 +60,11 @@ For Classwork 09:
 cd CW09
 python spanish_verb_conjugator.py
 ```
+For Classwork 10:
+```
+cd CW10
+python school_management_system.py
+```
 
 ---
 
@@ -75,5 +83,11 @@ AI tools were partially utilized as an auxiliary assistant for debugging, optimi
 ## AI Use Declaration - Classwork 09
 
 AI tools were partially utilized as an auxiliary assistant for optimizing documentation syntax, formatting pseudocode structure, and verifying standard markdown layout. The implementation of structural arrays, dictionary mapping configurations, and sequential loop logic were entirely designed and coded by the author.
+
+---
+
+## AI Use Declaration - Classwork 10
+
+AI tools were partially utilized as an auxiliary assistant for structural formatting of logical control flows, organizing multi-layered menu loops, and optimizing interactive terminal prompts. The design of multidimensional data mapping, boolean flow architectures, validation states, and sequential menu branching conditions were entirely designed and implemented by the author.
 
 

@@ -1,0 +1,171 @@
+ALGORITMO Sistema_Gestion_Escolar
+
+INICIO
+
+    DEFINIR usuarios COMO DICCIONARIO
+    DEFINIR materias COMO TUPLA
+    materias <- ("Matemáticas", "Programación", "Inglés")
+    
+    DEFINIR calificaciones COMO DICCIONARIO
+
+    DEFINIR programa_activo COMO BOOLEANO
+    programa_activo <- VERDADERO
+
+    MIENTRAS programa_activo HACER
+        
+        DEFINIR usuario_actual, rol_actual, nombre_actual COMO CADENA
+        DEFINIR autenticado COMO BOOLEANO
+        autenticado <- FALSO
+
+        ESCRIBIR "--- SISTEMA ESCOLAR - INICIO DE SESIÓN ---"
+        ESCRIBIR "(Escribe 'shutdown' en usuario para apagar el programa)"
+
+        MIENTRAS autenticado = FALSO HACER
+            LEER username_input
+            
+            SI username_input = "shutdown" ENTONCES
+                ESCRIBIR "Apagando el sistema. ¡Adiós!"
+                autenticado <- VERDADERO
+                programa_activo <- FALSO
+            SINO
+                LEER password_input
+                
+                SI existe username_input EN usuarios Y usuarios[username_input]["password"] = password_input ENTONCES
+                    usuario_actual <- username_input
+                    rol_actual <- usuarios[username_input]["rol"]
+                    nombre_actual <- usuarios[username_input]["nombre"]
+                    
+                    ESCRIBIR "Bienvenido, ", nombre_actual, " (", rol_actual, ")"
+                    autenticado <- VERDADERO
+                SINO
+                    ESCRIBIR "Usuario o contraseña incorrectos. Intente de nuevo."
+                FIN SI
+            FIN SI
+        FIN MIENTRAS
+
+        SI programa_activo = FALSO ENTONCES
+            ROMPER BUCLE
+        FIN SI
+
+        SI rol_actual = "alumno" ENTONCES
+            ESCRIBIR "--- BOLETA DE CALIFICACIONES: ", nombre_actual, " ---"
+            
+            DEFINIR aprobadas COMO CONJUNTO
+            DEFINIR todas_las_materias COMO CONJUNTO
+            DEFINIR pendientes COMO CONJUNTO
+            
+            PARA CADA materia EN materias HACER
+                DEFINIR nota COMO REAL
+                nota <- calificaciones[usuario_actual][materia]
+                ESCRIBIR "  * ", materia, ": ", nota
+                
+                SI nota >= 7.0 ENTONCES
+                    AGREGAR materia A aprobadas
+                FIN SI
+            FIN PARA
+            
+            todas_las_materias <- CONVERTIR materias A CONJUNTO
+            pendientes <- todas_las_materias DIFERENCIA aprobadas
+            
+            ESCRIBIR "Materias aprobadas: ", aprobadas
+            ESCRIBIR "Materias pendientes: ", pendientes
+            
+            ESCRIBIR "Presione Enter para cerrar sesión y volver al Login..."
+            LEER pausa
+
+        SINO SI rol_actual = "maestro" ENTONCES
+            ESCRIBIR "--- Listado de Alumnos Registrados ---"
+            PARA CADA usr EN usuarios HACER
+                SI usuarios[usr]["rol"] = "alumno" ENTONCES
+                    ESCRIBIR "  - Username: ", usr, " | Nombre: ", usuarios[usr]["nombre"]
+                FIN SI
+            FIN PARA
+            
+            DEFINIR menu_maestro_activo COMO BOOLEANO
+            menu_maestro_activo <- VERDADERO
+            
+            MIENTRAS menu_maestro_activo = VERDADERO HACER
+                ESCRIBIR "--- Modificación de Calificaciones ---"
+                ESCRIBIR "(Escriba 'logout' en el alumno para cerrar sesión de maestro)"
+                LEER alumno_selec
+                
+                SI alumno_selec = "logout" ENTONCES
+                    ESCRIBIR "Cerrando sesión de maestro..."
+                    menu_maestro_activo <- FALSO
+                    
+                SINO SI existe alumno_selec EN usuarios Y usuarios[alumno_selec]["rol"] = "alumno" ENTONCES
+                    ESCRIBIR "Materias disponibles para calificar:"
+                    PARA CADA m EN materias HACER
+                        ESCRIBIR "  * ", m
+                    FIN PARA
+                    
+                    LEER materia_selec
+                    
+                    SI existe materia_selec EN materias ENTONCES
+                        DEFINIR nota_confirmada COMO BOOLEANO
+                        nota_confirmada <- FALSO
+                        
+                        MIENTRAS nota_confirmada = FALSO HACER
+                            DEFINIR nueva_nota COMO REAL
+                            LEER nueva_nota
+                            
+                            ESCRIBIR "¿Está seguro de cambiar la calificación de ", materia_selec, " a ", nueva_nota, "? (s/n):"
+                            LEER confirmacion
+                            
+                            SI confirmacion = "s" ENTONCES
+                                calificaciones[alumno_selec][materia_selec] <- nueva_nota
+                                ESCRIBIR "¡Calificación actualizada con éxito!"
+                                
+                                ESCRIBIR "--- Boleta Actualizada de ", usuarios[alumno_selec]["nombre"], " ---"
+                                PARA CADA m EN materias HACER
+                                    ESCRIBIR "  - ", m, ": ", calificaciones[alumno_selec][m]
+                                FIN PARA
+                                
+                                nota_confirmada <- VERDADERO
+                            SINO
+                                ESCRIBIR "[Corrección] Volviendo a solicitar la calificación para el mismo alumno y materia..."
+                            FIN SI
+                        FIN MIENTRAS
+                    SINO
+                        ESCRIBIR "[Error] La materia ingresada no es válida. Intente de nuevo."
+                    FIN SI
+                SINO
+                    ESCRIBIR "[Error] El usuario no existe o no es un alumno. Intente de nuevo."
+                FIN SI
+            FIN MIENTRAS
+
+        SINO SI rol_actual = "coordinador" ENTONCES
+            ESCRIBIR "========================================="
+            ESCRIBIR "      REPORTE GLOBAL (READ-ONLY)         "
+            ESCRIBIR "========================================="
+            
+            ESCRIBIR "1. LISTA DE MAESTROS:"
+            PARA CADA usr EN usuarios HACER
+                SI usuarios[usr]["rol"] = "maestro" ENTONCES
+                    ESCRIBIR "   * ", usuarios[usr]["nombre"]
+                FIN SI
+            FIN PARA
+            
+            ESCRIBIR "2. LISTA DE MATERIAS:"
+            PARA CADA materia EN materias HACER
+                ESCRIBIR "   * ", materia
+            FIN PARA
+            
+            ESCRIBIR "3. REPORTE DE CALIFICACIONES POR ESTUDIANTE:"
+            PARA CADA estudiante EN calificaciones HACER
+                ESCRIBIR "   Estudiante: ", usuarios[estudiante]["nombre"], " (", estudiante, ")"
+                PARA CADA m EN materias HACER
+                    ESCRIBIR "      - ", m, ": ", calificaciones[estudiante][m]
+                FIN PARA
+            FIN PARA
+            
+            ESCRIBIR "Presione Enter para cerrar sesión y volver al Login..."
+            LEER pausa
+            
+        SINO
+            ESCRIBIR "[X] Rol no reconocido en el sistema."
+        FIN SI
+
+    FIN MIENTRAS
+
+FIN
