@@ -1,169 +1,167 @@
-ALGORITMO Sistema_Gestion_Escolar
-
 INICIO
 
-    DEFINIR usuarios COMO DICCIONARIO
-    DEFINIR materias COMO TUPLA
-    materias <- ("Matemáticas", "Programación", "Inglés")
+    DEFINIR users COMO DICCIONARIO
+    DEFINIR subjects COMO TUPLA
+    subjects <- ("Discrete Mathematics", "Programming", "English II", "Differential Calculus", "Probability and Statistics", "Computer and Server Architecture", "Socio-Emotional Skills and Conflict Management")
     
-    DEFINIR calificaciones COMO DICCIONARIO
+    DEFINIR notes COMO DICCIONARIO
 
-    DEFINIR programa_activo COMO BOOLEANO
-    programa_activo <- VERDADERO
+    DEFINIR program_active COMO BOOLEANO
+    program_active <- VERDADERO
 
-    MIENTRAS programa_activo HACER
+    MIENTRAS program_active = VERDADERO HACER
         
-        DEFINIR usuario_actual, rol_actual, nombre_actual COMO CADENA
-        DEFINIR autenticado COMO BOOLEANO
-        autenticado <- FALSO
+        DEFINIR current_user, current_role, current_name COMO CADENA
+        DEFINIR authenticated COMO BOOLEANO
+        authenticated <- FALSO
 
-        ESCRIBIR "--- SISTEMA ESCOLAR - INICIO DE SESIÓN ---"
-        ESCRIBIR "(Escribe 'shutdown' en usuario para apagar el programa)"
+        ESCRIBIR "--- SCHOOL MANAGEMENT SYSTEM - LOGIN ---"
+        ESCRIBIR "(Type 'shutdown' in username to turn off the program)"
 
-        MIENTRAS autenticado = FALSO HACER
+        MIENTRAS authenticated = FALSO HACER
             LEER username_input
             
             SI username_input = "shutdown" ENTONCES
-                ESCRIBIR "Apagando el sistema. ¡Adiós!"
-                autenticado <- VERDADERO
-                programa_activo <- FALSO
+                ESCRIBIR "Shutting down the system. Goodbye!"
+                authenticated <- VERDADERO
+                program_active <- FALSO
             SINO
                 LEER password_input
                 
-                SI existe username_input EN usuarios Y usuarios[username_input]["password"] = password_input ENTONCES
-                    usuario_actual <- username_input
-                    rol_actual <- usuarios[username_input]["rol"]
-                    nombre_actual <- usuarios[username_input]["nombre"]
+                SI existe username_input EN users Y users[username_input]["password"] = password_input ENTONCES
+                    current_user <- username_input
+                    current_role <- users[username_input]["rol"]
+                    current_name <- users[username_input]["name"]
                     
-                    ESCRIBIR "Bienvenido, ", nombre_actual, " (", rol_actual, ")"
-                    autenticado <- VERDADERO
+                    ESCRIBIR "Welcome, ", current_name, " (", current_role, ")"
+                    authenticated <- VERDADERO
                 SINO
-                    ESCRIBIR "Usuario o contraseña incorrectos. Intente de nuevo."
+                    ESCRIBIR "Incorrect username or password. Try again."
                 FIN SI
             FIN SI
         FIN MIENTRAS
 
-        SI programa_activo = FALSO ENTONCES
+        SI program_active = FALSO ENTONCES
             ROMPER BUCLE
         FIN SI
 
-        SI rol_actual = "alumno" ENTONCES
-            ESCRIBIR "--- BOLETA DE CALIFICACIONES: ", nombre_actual, " ---"
+        SI current_role = "student" ENTONCES
+            ESCRIBIR "--- REPORT CARD: ", current_name, " ---"
             
             DEFINIR aprobadas COMO CONJUNTO
-            DEFINIR todas_las_materias COMO CONJUNTO
+            DEFINIR all_subjects COMO CONJUNTO
             DEFINIR pendientes COMO CONJUNTO
             
-            PARA CADA materia EN materias HACER
-                DEFINIR nota COMO REAL
-                nota <- calificaciones[usuario_actual][materia]
-                ESCRIBIR "  * ", materia, ": ", nota
+            PARA CADA subject EN subjects HACER
+                DEFINIR grade COMO REAL
+                grade <- notes[current_user][subject]
+                ESCRIBIR "  * ", subject, ": ", grade
                 
-                SI nota >= 7.0 ENTONCES
-                    AGREGAR materia A aprobadas
+                SI grade >= 7.0 ENTONCES
+                    AGREGAR subject A aprobadas
                 FIN SI
             FIN PARA
             
-            todas_las_materias <- CONVERTIR materias A CONJUNTO
-            pendientes <- todas_las_materias DIFERENCIA aprobadas
+            all_subjects <- CONVERTIR subjects A CONJUNTO
+            pendientes <- all_subjects DIFERENCIA aprobadas
             
-            ESCRIBIR "Materias aprobadas: ", aprobadas
-            ESCRIBIR "Materias pendientes: ", pendientes
+            ESCRIBIR "Passed subjects (aprobadas): ", aprobadas
+            ESCRIBIR "Pending subjects (pendientes): ", pendientes
             
-            ESCRIBIR "Presione Enter para cerrar sesión y volver al Login..."
+            ESCRIBIR "Press Enter to log out and return to Login..."
             LEER pausa
 
-        SINO SI rol_actual = "maestro" ENTONCES
-            ESCRIBIR "--- Listado de Alumnos Registrados ---"
-            PARA CADA usr EN usuarios HACER
-                SI usuarios[usr]["rol"] = "alumno" ENTONCES
-                    ESCRIBIR "  - Username: ", usr, " | Nombre: ", usuarios[usr]["nombre"]
+        SINO SI current_role = "professor" ENTONCES
+            ESCRIBIR "--- List of Registered Students ---"
+            PARA CADA usr EN users HACER
+                SI users[usr]["rol"] = "student" ENTONCES
+                    ESCRIBIR "  - Username: ", usr, " | Name: ", users[usr]["name"]
                 FIN SI
             FIN PARA
             
-            DEFINIR menu_maestro_activo COMO BOOLEANO
-            menu_maestro_activo <- VERDADERO
+            DEFINIR menu_professor_active COMO BOOLEANO
+            menu_professor_active <- VERDADERO
             
-            MIENTRAS menu_maestro_activo = VERDADERO HACER
-                ESCRIBIR "--- Modificación de Calificaciones ---"
-                ESCRIBIR "(Escriba 'logout' en el alumno para cerrar sesión de maestro)"
-                LEER alumno_selec
+            MIENTRAS menu_professor_active = VERDADERO HACER
+                ESCRIBIR "--- Grade Modification Menu ---"
+                ESCRIBIR "(Type 'logout' in student username to close professor session)"
+                LEER student_selec
                 
-                SI alumno_selec = "logout" ENTONCES
-                    ESCRIBIR "Cerrando sesión de maestro..."
-                    menu_maestro_activo <- FALSO
+                SI student_selec = "logout" ENTONCES
+                    ESCRIBIR "Logging out from professor session..."
+                    menu_professor_active <- FALSO
                     
-                SINO SI existe alumno_selec EN usuarios Y usuarios[alumno_selec]["rol"] = "alumno" ENTONCES
-                    ESCRIBIR "Materias disponibles para calificar:"
-                    PARA CADA m EN materias HACER
-                        ESCRIBIR "  * ", m
+                SINO SI existe student_selec EN users Y users[student_selec]["rol"] = "student" ENTONCES
+                    ESCRIBIR "Available subjects to grade:"
+                    PARA CADA s EN subjects HACER
+                        ESCRIBIR "  * ", s
                     FIN PARA
                     
-                    LEER materia_selec
+                    LEER subject_selec
                     
-                    SI existe materia_selec EN materias ENTONCES
-                        DEFINIR nota_confirmada COMO BOOLEANO
-                        nota_confirmada <- FALSO
+                    SI existe subject_selec EN subjects ENTONCES
+                        DEFINIR grade_confirmed COMO BOOLEANO
+                        grade_confirmed <- FALSO
                         
-                        MIENTRAS nota_confirmada = FALSO HACER
-                            DEFINIR nueva_nota COMO REAL
-                            LEER nueva_nota
+                        MIENTRAS grade_confirmed = FALSO HACER
+                            DEFINIR new_grade COMO REAL
+                            LEER new_grade
                             
-                            ESCRIBIR "¿Está seguro de cambiar la calificación de ", materia_selec, " a ", nueva_nota, "? (s/n):"
-                            LEER confirmacion
+                            ESCRIBIR "Are you sure you want to change ", subject_selec, " grade to ", new_grade, "? (s/n):"
+                            LEER confirmation
                             
-                            SI confirmacion = "s" ENTONCES
-                                calificaciones[alumno_selec][materia_selec] <- nueva_nota
-                                ESCRIBIR "¡Calificación actualizada con éxito!"
+                            SI confirmation = "s" ENTONCES
+                                notes[student_selec][subject_selec] <- new_grade
+                                ESCRIBIR "Grade updated successfully!"
                                 
-                                ESCRIBIR "--- Boleta Actualizada de ", usuarios[alumno_selec]["nombre"], " ---"
-                                PARA CADA m EN materias HACER
-                                    ESCRIBIR "  - ", m, ": ", calificaciones[alumno_selec][m]
+                                ESCRIBIR "--- Updated Report Card for ", users[student_selec]["name"], " ---"
+                                PARA CADA s EN subjects HACER
+                                    ESCRIBIR "  - ", s, ": ", notes[student_selec][s]
                                 FIN PARA
                                 
-                                nota_confirmada <- VERDADERO
+                                grade_confirmed <- VERDADERO
                             SINO
-                                ESCRIBIR "[Corrección] Volviendo a solicitar la calificación para el mismo alumno y materia..."
+                                ESCRIBIR "[Correction] Re-entering the grade for the same student and subject..."
                             FIN SI
                         FIN MIENTRAS
                     SINO
-                        ESCRIBIR "[Error] La materia ingresada no es válida. Intente de nuevo."
+                        ESCRIBIR "[Error] The entered subject is not valid. Try again."
                     FIN SI
                 SINO
-                    ESCRIBIR "[Error] El usuario no existe o no es un alumno. Intente de nuevo."
+                    ESCRIBIR "[Error] User does not exist or is not a student. Try again."
                 FIN SI
             FIN MIENTRAS
 
-        SINO SI rol_actual = "coordinador" ENTONCES
+        SINO SI current_role = "coordinator" ENTONCES
             ESCRIBIR "========================================="
-            ESCRIBIR "      REPORTE GLOBAL (READ-ONLY)         "
+            ESCRIBIR "      GLOBAL REPORT (READ-ONLY)          "
             ESCRIBIR "========================================="
             
-            ESCRIBIR "1. LISTA DE MAESTROS:"
-            PARA CADA usr EN usuarios HACER
-                SI usuarios[usr]["rol"] = "maestro" ENTONCES
-                    ESCRIBIR "   * ", usuarios[usr]["nombre"]
+            ESCRIBIR "1. LIST OF PROFESSORS:"
+            PARA CADA usr EN users HACER
+                SI users[usr]["rol"] = "professor" ENTONCES
+                    ESCRIBIR "   * ", users[usr]["name"]
                 FIN SI
             FIN PARA
             
-            ESCRIBIR "2. LISTA DE MATERIAS:"
-            PARA CADA materia EN materias HACER
-                ESCRIBIR "   * ", materia
+            ESCRIBIR "2. LIST OF SUBJECTS:"
+            PARA CADA subject EN subjects HACER
+                ESCRIBIR "   * ", subject
             FIN PARA
             
-            ESCRIBIR "3. REPORTE DE CALIFICACIONES POR ESTUDIANTE:"
-            PARA CADA estudiante EN calificaciones HACER
-                ESCRIBIR "   Estudiante: ", usuarios[estudiante]["nombre"], " (", estudiante, ")"
-                PARA CADA m EN materias HACER
-                    ESCRIBIR "      - ", m, ": ", calificaciones[estudiante][m]
+            ESCRIBIR "3. STUDENT GRADES REPORT:"
+            PARA CADA student EN notes HACER
+                ESCRIBIR "   Student: ", users[student]["name"], " (", student, ")"
+                PARA CADA s EN subjects HACER
+                    ESCRIBIR "      - ", s, ": ", notes[student][s]
                 FIN PARA
             FIN PARA
             
-            ESCRIBIR "Presione Enter para cerrar sesión y volver al Login..."
+            ESCRIBIR "Press Enter to log out and return to Login..."
             LEER pausa
             
         SINO
-            ESCRIBIR "[X] Rol no reconocido en el sistema."
+            ESCRIBIR "[X] Role not recognized in the system."
         FIN SI
 
     FIN MIENTRAS
