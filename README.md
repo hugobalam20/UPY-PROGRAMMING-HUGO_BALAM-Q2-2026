@@ -30,6 +30,11 @@ The program reads configuration parameters (such as image resolution and coordin
 
 The results (the number of iterations achieved per pixel) are saved directly into a file named clase.csv. Additionally, this folder includes the complete pseudocode (PPP.txt) and the execution flowchart (Flowchart.png).
 
+### 6. Classwork 12 - Mandelbrot Set Image Renderer (CW12)
+The included Python script uses the Pillow (PIL) library to transform the raw coordinate data from `clase.csv` into a high-resolution PNG image. 
+
+The program reads dimensions from `config.txt` and processes each row of the dataset. It applies a custom color smoothing algorithm that colors the interior of the Mandelbrot set black and creates a dynamic color gradient (shifting from deep blues to vibrant oranges) for the exterior pixels based on their escape velocity. It also includes error handling to prevent index overflows during pixel placement.
+
 ---
 
 ## Environment & Tools
@@ -77,6 +82,11 @@ For Classwork 11:
 cd Classwork-11-The-Mandelbrot-Set
 python mandelbrot_set_math.py
 ```
+For Classwork 12:
+```
+cd Classwork-12-Mandelbrot-Set-Image-Renderer
+python render_mandelbrot.py
+```
 ---
 
 ## AI Use Declaration - Classwork 07
@@ -106,6 +116,13 @@ AI tools were partially utilized as an auxiliary assistant for structural format
 ## AI Use Declaration - Classwork 11
 
 AI tools were partially utilized as an auxiliary assistant for structural formatting of the markdown layout, rendering the architectural flowchart canvas, and refining the text parsing logic for file inputs. The core mathematical translation of the complex escape-time loops, boundary mapping functions, and matrix file generation were entirely conceptualized, designed, and coded by the author.
+
+---
+
+## AI Use Declaration - Classwork 12
+
+AI tools were partially utilized as an auxiliary assistant for structuring the logical blocks of the conditional color mapping, organizing the exception handling flow, and formatting the markdown documentation layout. The configuration parsing, data array cleaning, and coordinate pixel rendering logic were entirely designed and implemented by the author.
+
 
 
 

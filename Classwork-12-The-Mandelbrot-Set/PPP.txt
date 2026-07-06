@@ -1,0 +1,98 @@
+INICIO
+
+    // Inicializar el diccionario de configuración
+    config <- DICCIONARIO_VACIO()
+    
+    // Leer el archivo de configuración alternativo
+    ABRIR "config2.txt" EN MODO LECTURA COMO archivo
+        PARA CADA linea EN archivo HACER
+            linea_limpia <- ELIMINAR_ESPACIOS_EXTREMOS(linea)
+            
+            SI linea_limpia ESTÁ_VACÍA ENTONCES
+                CONTINUAR
+            FIN SI
+            
+            [clave, valor] <- DIVIDIR_CADENA(linea_limpia)
+            
+            SI "." EN valor ENTONCES
+                config[clave] <- CONVERTIR_A_REAL(valor)
+            SINO
+                config[clave] <- CONVERTIR_A_ENTERO(valor)
+            FIN SI
+        FIN PARA
+    CERRAR archivo
+
+    // Asignar dimensiones y límites de iteración
+    alto <- CONVERTIR_A_ENTERO(config["alto"])
+    ancho <- CONVERTIR_A_ENTERO(config["ancho"])
+    max_iter <- CONVERTIR_A_ENTERO(config["max_iter"])
+
+    // Cargar los datos calculados previamente
+    ABRIR "clase.csv" EN MODO LECTURA COMO data
+        datos <- LEER_TODAS_LAS_LINEAS(data)
+    CERRAR data
+
+    // Remover la fila de encabezados del CSV
+    encabezados <- ELIMINAR_PRIMER_ELEMENTO(datos)
+    
+    // Inicializar lienzo de imagen vacío en formato RGB
+    img <- CREAR_NUEVA_IMAGEN_RGB(ancho, alto)
+
+    // Procesar cada registro de píxel
+    PARA CADA dato EN datos HACER
+        linea_limpia <- ELIMINAR_ESPACIOS_EXTREMOS(dato)
+        
+        SI linea_limpia ESTÁ_VACÍA ENTONCES
+            CONTINUAR
+        FIN SI
+        
+        partes <- DIVIDIR_CADENA_POR_COMA(linea_limpia)
+        fila <- CONVERTIR_A_ENTERO(partes[0])
+        columna <- CONVERTIR_A_ENTERO(partes[1])
+        iteraciones <- CONVERTIR_A_ENTERO(partes[2])
+        
+        // Algoritmo de mapeo de color según la velocidad de escape
+        SI iteraciones >= max_iter ENTONCES
+            // El punto pertenece al conjunto (Interior negro)
+            color <- COLOR_RGB(0, 0, 0)
+        SINO
+            // Fracción de iteraciones completadas
+            f <- iteraciones / max_iter
+            
+            SI f < 0.3 ENTONCES
+                // Gradiente para escape rápido (Tonos azules/oscuros)
+                r <- CONVERTIR_A_ENTERO(f * 50)
+                g <- CONVERTIR_A_ENTERO(f * 150)
+                b <- CONVERTIR_A_ENTERO(50 + f * 450)
+            SINO
+                // Gradiente para zonas cercanas al borde (Tonos cálidos/naranjas)
+                f_borde <- (f - 0.3) / 0.7
+                r <- CONVERTIR_A_ENTERO(180 + f_borde * 75)
+                g <- CONVERTIR_A_ENTERO(100 + f_borde * 155)
+                b <- CONVERTIR_A_ENTERO((1 - f_borde) * 30)
+            FIN SI
+            
+            // Asegurar que los canales RGB se mantengan estrictamente entre 0 y 255
+            r_val <- RESTRINGIR_VALOR(r, 0, 255)
+            g_val <- RESTRINGIR_VALOR(g, 0, 255)
+            b_val <- RESTRINGIR_VALOR(b, 0, 255)
+            
+            color <- COLOR_RGB(r_val, g_val, b_val)
+        FIN SI
+        
+        // Intentar pintar el píxel controlando errores de desborde de índice
+        INTENTAR
+            PINTAR_PIXEL(img, columna, fila, color)
+        CAPTURAR_ERROR_INDICE
+            CONTINUAR
+        FIN INTENTAR
+
+    FIN PARA
+
+    // Guardar el mapa de bits resultante en disco
+    GUARDAR_IMAGEN(img, "mandelbrot-clase.png")
+    
+    DISPLAY "¡Imagen guardada como mandelbrot-clase.png!"
+
+FIN
+
