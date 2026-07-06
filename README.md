@@ -23,6 +23,13 @@ The program isolates the verb's core lexical components (`stem` and `ending`) vi
 ### 4. Classwork 10 - School Management System (CW10)
 The included Python script (school_management_system.py) is an administrative simulation tool designed to replicate an academic records platform handling multi-role access controls (Student, Teacher, and Coordinator) within a single, continuous runtime loop. Developed under strict operational constraints without user-defined functions, the program manages global data persistence using multidimensional dictionaries and immutable tuples. It features infinite login verification, interactive data updates with nested correction loops for real-time grade modification, and boolean state controls to safely manage cross-role transitions and full system shutdowns.
 
+### 5. Classwork 11 - The Mandelbrot Set (CW11)
+The included Python script (mandelbrot_set_math.py) is a mathematical program designed to calculate the data points of the Mandelbrot Set fractal. 
+
+The program reads configuration parameters (such as image resolution and coordinate limits) from an external file named config.txt. It then maps these coordinates to a grid and runs an iterative loop to check how fast each point escapes to infinity using the standard Mandelbrot formula. 
+
+The results (the number of iterations achieved per pixel) are saved directly into a file named clase.csv. Additionally, this folder includes the complete pseudocode (PPP.txt) and the execution flowchart (Flowchart.png).
+
 ---
 
 ## Environment & Tools
@@ -65,7 +72,11 @@ For Classwork 10:
 cd CW10
 python school_management_system.py
 ```
-
+For Classwork 11:
+```
+cd Classwork-11-The-Mandelbrot-Set
+python mandelbrot_set_math.py
+```
 ---
 
 ## AI Use Declaration - Classwork 07
@@ -89,6 +100,12 @@ AI tools were partially utilized as an auxiliary assistant for optimizing docume
 ## AI Use Declaration - Classwork 10
 
 AI tools were partially utilized as an auxiliary assistant for structural formatting of logical control flows, organizing multi-layered menu loops, and optimizing interactive terminal prompts. The design of multidimensional data mapping, boolean flow architectures, validation states, and sequential menu branching conditions were entirely designed and implemented by the author.
+
+---
+
+## AI Use Declaration - Classwork 11
+
+AI tools were partially utilized as an auxiliary assistant for structural formatting of the markdown layout, rendering the architectural flowchart canvas, and refining the text parsing logic for file inputs. The core mathematical translation of the complex escape-time loops, boundary mapping functions, and matrix file generation were entirely conceptualized, designed, and coded by the author.
 
 
 

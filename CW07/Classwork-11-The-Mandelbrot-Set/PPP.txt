@@ -1,0 +1,68 @@
+INICIO
+
+    // Inicializar el diccionario de configuración
+    config <- DICCIONARIO_VACIO()
+    
+    // Leer el archivo de configuración
+    ABRIR "config.txt" EN MODO LECTURA COMO archivo
+        PARA CADA linea EN archivo HACER
+            linea_limpia <- ELIMINAR_ESPACIOS_EXTREMOS(linea)
+            
+            SI linea_limpia ESTÁ_VACÍA ENTONCES
+                CONTINUAR
+            FIN SI
+            
+            // Separar por espacio en blanco
+            [clave, valor] <- DIVIDIR_CADENA(linea_limpia)
+            
+            // Conversión de tipos basada en el punto decimal
+            SI "." EN valor ENTONCES
+                config[clave] <- CONVERTIR_A_REAL(valor)
+            SINO
+                config[clave] <- CONVERTIR_A_ENTERO(valor)
+            FIN SI
+        FIN PARA
+    CERRAR archivo
+
+    // Asignación de variables de configuración
+    ancho <- CONVERTIR_A_ENTERO(config["ancho"])
+    alto <- CONVERTIR_A_ENTERO(config["alto"])
+    max_iter <- CONVERTIR_A_ENTERO(config["max_iter"])
+
+    min_x <- CONVERTIR_A_REAL(config["min_x"])
+    max_x <- CONVERTIR_A_REAL(config["max_x"])
+    min_y <- CONVERTIR_A_REAL(config["min_y"])
+    max_y <- CONVERTIR_A_REAL(config["max_y"])
+
+    // Generación de datos y escritura del archivo CSV
+    ABRIR "clase.csv" EN MODO ESCRITURA COMO salida
+        ESCRIBIR EN salida: "fila,columna,iteraciones\n"
+
+        PARA fila DESDE 0 HASTA (alto - 1) HACER
+            PARA columna DESDE 0 HASTA (ancho - 1) HACER
+                
+                // Mapeo lineal estricto al plano complejo
+                x <- min_x + (columna / (ancho - 1)) * (max_x - min_x)
+                y <- min_y + (fila / (alto - 1)) * (max_y - min_y)
+                
+                c <- CREAR_COMPLEJO(x, y)
+                z <- CREAR_COMPLEJO(0, 0)
+                iteraciones <- 0
+                
+                // Bucle de escape de Mandelbrot
+                MIENTRAS (VALOR_ABSOLUTO(z) <= 2) Y (iteraciones < max_iter) HACER
+                    z <- (z ^ 2) + c
+                    iteraciones <- iteraciones + 1
+                FIN MIENTRAS
+                
+                // Guardar resultado en el archivo
+                ESCRIBIR EN salida: fila + "," + columna + "," + iteraciones + "\n"
+                
+            FIN PARA
+        FIN PARA
+    CERRAR salida
+
+    DISPLAY "¡Datos generados con éxito!"
+
+FIN
+
