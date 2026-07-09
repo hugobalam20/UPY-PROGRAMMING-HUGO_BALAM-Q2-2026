@@ -43,6 +43,15 @@ The scripts were re-engineered to capture specific operational and system except
 
 ---
 
+### 8. Classwork 14 - Error Handling II (CW14)
+The objective of this assignment is to systematically refactor the implementations from Classwork 10, 11, and 12 by integrating advanced error handling paradigms (`try-except` structures) to build highly stable runtime applications. 
+The scripts were optimized to secure internal data flows and protect execution streams from unexpected termination without modifying the core logic or custom variables:
+* **School Management System:** Now handles dynamic operational validation by catching data casting conflicts (`ValueError`) during numeric grade entries and trapping user verification states.
+* **The Mandelbrot Set (Math Engine):** Incorporates comprehensive input/output file validation that intercepts missing resource errors (`FileNotFoundError`) or structural split mismatches (`KeyError`, `ValueError`) while parsing `config.txt`.
+* **Mandelbrot Set Image Renderer:** Features defensive dependency detection to check for the presence of the external Pillow library (`ImportError`), structural length constraints (`IndexError`) on the processed rows of `clase.csv`, and pixel coordinate bounds.
+
+---
+
 ## Environment & Tools
 
 * **Language:** Python 3.x
@@ -105,6 +114,18 @@ python numerical_integration.py
 # To run Spanish Verb Conjugator with Error Handling:
 python spanish_verb_conjugator.py
 ```
+For Classwork 14:
+```
+cd Classwork-14-Error-Handling
+# To run the interactive School Management System:
+python school_management_system.py
+
+# To generate the Mandelbrot matrix data:
+python mandelbrot_set_math.py
+
+# To render the high-resolution fractal image:
+python mandelbrot_set_vis.py
+```
 ---
 
 ## AI Use Declaration - Classwork 07
@@ -148,6 +169,13 @@ AI tools were partially utilized as an auxiliary assistant for structuring the l
 AI tools were partially utilized as an auxiliary assistant for structural formatting of the markdown layout, organizing the try-except conditional routing blocks, and expanding text parsing validation constraints. The core architecture of exception catching parameters, programmatic error redirection loops, and standard input sanitization workflows were entirely designed, integrated, and implemented by the author.
 
 ---
+
+## AI Use Declaration - Classwork 14
+
+AI tools were partially utilized as an auxiliary assistant for structural formatting of the markdown layout, organizing the try-except nested conditional routing pathways, and expanding edge-case data exceptions. The system architecture for custom interactive menu validation loops, complex file parsing protections, and coordinate boundary safety parameters were entirely designed, structured, and implemented by the author.
+
+---
+
 
 
 
