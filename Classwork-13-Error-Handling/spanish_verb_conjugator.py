@@ -41,4 +41,3 @@ for i in range(len(pronombres)):
     sufijo = lista_sufijos[i]
     print(f"{pronoun.capitalize()} {stem}{sufijo}")
 
-    

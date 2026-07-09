@@ -87,4 +87,3 @@ except Exception as e:
 # OUTPUT
 # ==========================================
 print(f"The approximate integration of f(x) = {f_x} is: {area:.6f}")
-
