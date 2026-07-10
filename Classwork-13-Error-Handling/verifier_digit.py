@@ -1,46 +1,42 @@
-# INPUT
-# ==========================================
+
+class  RolInvalidadoError(Exception):
+    pass
+
+rol = input("Escribe el rol:")
+
 try:
-    rol_input = input("Introduce el rol (ej. 201012341): ").strip()
-    
-    if not rol_input:
-        raise ValueError("El campo de entrada no puede estar vacío.")
-        
-    if not rol_input.isdigit():
-        raise ValueError("El rol debe contener únicamente caracteres numéricos (0-9).")
-
-    rol = rol_input
-
-except ValueError as e:
-    print(f"Error de Validación de Entrada: {e}")
-    exit()
-
-# ==========================================
-# PROCESS
-# ==========================================
-rol_invertido = []
-for digito in rol[::-1]:
-    rol_invertido.append(int(digito))
-
-secuencia = [2, 3, 4, 5, 6, 7]
-suma_total = 0
-
-for i in range(len(rol_invertido)):
-    multiplicador = sequence = secuencia[i % 6]
-    suma_total += rol_invertido[i] * multiplicador
-
-modulo = suma_total % 11
-resta = 11 - modulo
-
-if resta == 11:
-    dv = "0"
-elif resta == 10:
-    dv = "K"
+    rol_sin_digito, digito = rol.split('-')
+except ValueError:
+    print("Rol invalido: No tiene el formato XXXXXXXXX-X")
 else:
-    dv = str(resta)
+    try:
+        digito = int(digito)
+    except ValueError:
+        print("el digito verificador debe ser numerico")
+    else:
+        try:
+            rol_invertido = [int(i) fir i in rol_sin_digito]
+        except ValueError:
+            print("Los digitos del rol deben ser numericos")
+        else:
+            rol_invertido.reverse()
 
-# ==========================================
-# OUTPUT
-# ==========================================
-print(f"Resultado: {rol}-{dv}")
+            secuencia = [2, 3, 4, 5, 6, 7]
 
+            suma = 0
+
+            for index in range(len(rol_invertido)):
+                suma += rol_invertido[index] * secuencia[index % 6]
+            resultado = suma % 11
+
+            verificador = 11 - resultado
+
+            try:
+                if (verificador != digito):
+                    raise RolInvalidadoError(f"El digito verificador no coincide, se esperaba {verificador}")
+            except RolInvalidadoError as e:
+                print(f"Error: {e}")
+            else:
+                print(f"{rol_sin_digito}-{verificador}")
+
+                

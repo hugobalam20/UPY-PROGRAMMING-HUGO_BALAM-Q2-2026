@@ -1,26 +1,41 @@
-rol = input("Introduce el rol (ej. 201012341): ").strip()
+class  RolInvalidadoError(Exception):
+    pass
 
-rol_invertido = []
-for digito in rol[::-1]:
-    rol_invertido.append(int(digito))
+rol = input("Escribe el rol:")
 
-secuencia = [2, 3, 4, 5, 6, 7]
-suma_total = 0
-
-for i in range(len(rol_invertido)):
-    multiplicador = secuencia[i % 6]
-    suma_total += rol_invertido[i] * multiplicador
-
-modulo = suma_total % 11
-resta = 11 - modulo
-
-if resta == 11:
-    dv = "0"
-elif resta == 10:
-    dv = "K"
+try:
+    rol_sin_digito, digito = rol.split('-')
+except ValueError:
+    print("Rol invalido: No tiene el formato XXXXXXXXX-X")
 else:
-    dv = str(resta)
+    try:
+        digito = int(digito)
+    except ValueError:
+        print("el digito verificador debe ser numerico")
+    else:
+        try:
+            rol_invertido = [int(i) fir i in rol_sin_digito]
+        except ValueError:
+            print("Los digitos del rol deben ser numericos")
+        else:
+            rol_invertido.reverse()
 
-print(f"{rol}-{dv}")
+            secuencia = [2, 3, 4, 5, 6, 7]
 
+            suma = 0
 
+            for index in range(len(rol_invertido)):
+                suma += rol_invertido[index] * secuencia[index % 6]
+            resultado = suma % 11
+
+            verificador = 11 - resultado
+
+            try:
+                if (verificador != digito):
+                    raise RolInvalidadoError(f"El digito verificador no coincide, se esperaba {verificador}")
+            except RolInvalidadoError as e:
+                print(f"Error: {e}")
+            else:
+                print(f"{rol_sin_digito}-{verificador}")
+
+                
