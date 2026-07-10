@@ -15,7 +15,7 @@ else:
         print("el digito verificador debe ser numerico")
     else:
         try:
-            rol_invertido = [int(i) fir i in rol_sin_digito]
+            rol_invertido = [int(i) for i in rol_sin_digito]
         except ValueError:
             print("Los digitos del rol deben ser numericos")
         else:
@@ -39,4 +39,4 @@ else:
             else:
                 print(f"{rol_sin_digito}-{verificador}")
 
-                
+
